@@ -7,11 +7,61 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
-    @Test void appHasAGreeting() {
-        Graph g = new Graph();
+    @Test 
+    void testTopoSort() {
+        EdgeList g = new EdgeList();
         g.addEdge(1, 2);
         g.addEdge(2, 3);
         assertEquals("1 2 3", g.topologicalSort());
         assertEquals("1 2 3", g.topologicalSort());
+    }
+
+    @Test
+    void testKahn() {
+        EdgeList g = new EdgeList();
+        g.addEdge(1, 2);
+        g.addEdge(2, 3);
+        assertEquals("1 2 3", g.kahn());
+
+        EdgeList g1 = new EdgeList();
+        g1.addEdge(4, 5);
+        g1.addEdge(5, 6);
+        g1.addEdge(4, 6);
+        assertEquals("4 5 6", g1.kahn());
+
+        EdgeList g2 = new EdgeList();
+        g2.addEdge(1, 2);
+        g2.addEdge(2, 3);
+        g2.addEdge(3, 1);
+        assertEquals("Graph has a cycle", g2.kahn());
+    }
+
+    @Test
+    void testKahnTopo1() {
+        EdgeList g = new EdgeList();
+        g.addEdge(1, 2);
+        g.addEdge(3, 4);
+        g.addEdge(2, 5);
+        g.addEdge(4, 5);
+        assertEquals("1 3 2 4 5", g.kahn());
+        assertEquals("3 4 1 2 5", g.topologicalSort());
+    }
+
+    @Test
+    void testEmpty() {
+        EdgeList g = new EdgeList();
+        assertEquals("", g.kahn());
+        assertEquals("", g.topologicalSort());
+    }
+
+    @Test
+    void testKahnTopo() {
+        EdgeList g = new EdgeList();
+        g.addEdge(1, 2);
+        g.addEdge(3, 4);
+        g.addEdge(2, 5);
+        g.addEdge(4, 5);
+        assertEquals("1 3 2 4 5", g.kahn());
+        assertEquals("3 4 1 2 5", g.topologicalSort());
     }
 }
